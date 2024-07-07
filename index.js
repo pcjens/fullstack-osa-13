@@ -38,6 +38,16 @@ app.delete('/api/blogs/:id', blogFinder, async (req, res) => {
     }
 });
 
+app.put('/api/blogs/:id', blogFinder, async (req, res) => {
+    try {
+        req.blog.likes = req.body.likes;
+        await req.blog.save();
+        res.sendStatus(200);
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}.`);
