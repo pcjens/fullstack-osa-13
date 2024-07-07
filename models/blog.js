@@ -1,8 +1,9 @@
-const { Model, DataTypes } = require('sequelize')
+const { Model, DataTypes } = require('sequelize');
+const { sequelize } = require('../util/db');
 
 class Blog extends Model { }
 
-const init = (sequelize) => Blog.init({
+Blog.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     author: { type: DataTypes.TEXT },
     url: { type: DataTypes.TEXT, allowNull: false },
@@ -15,4 +16,4 @@ const init = (sequelize) => Blog.init({
     modelName: 'blog',
 });
 
-module.exports = { Blog, init };
+module.exports = Blog;

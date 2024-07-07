@@ -1,13 +1,11 @@
 const dotenv = require('dotenv');
 const { Sequelize } = require('sequelize')
 const express = require('express');
-const { Blog, init: initBlog } = require('./models/Blog');
+const { Blog } = require('./models');
 
 const app = express()
 dotenv.config();
 const sequelize = new Sequelize(process.env.DATABASE_URL);
-
-initBlog(sequelize);
 
 app.use(express.json());
 
@@ -26,10 +24,14 @@ app.post('/api/blogs', async (req, res) => {
     }
 });
 
-app.delete('/api/blogs/:id', async (req, res) => {
+const blogFinder = async (req, res, next) => {
+    req.blog = await Blog.findByPk(req.params.id);
+    next();
+};
+
+app.delete('/api/blogs/:id', blogFinder, async (req, res) => {
     try {
-        const blog = await Blog.findByPk(req.params.id);
-        await blog.destroy();
+        await req.blog.destroy();
         res.sendStatus(200);
     } catch (error) {
         return res.status(500).json({ error });
