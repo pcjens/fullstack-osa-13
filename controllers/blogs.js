@@ -1,5 +1,5 @@
 const express = require('express');
-const { Blog } = require('../models');
+const { Blog, User } = require('../models');
 const { loggedInUserSetter } = require('../util/auth');
 
 const router = express.Router();
@@ -14,7 +14,9 @@ const blogFinder = async (req, res, next) => {
 };
 
 router.get('/', async (req, res) => {
-    const blogs = await Blog.findAll();
+    const blogs = await Blog.findAll({
+        include: { model: User },
+    });
     res.json(blogs);
 });
 
