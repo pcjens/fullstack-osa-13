@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { User, Blog, Reading } = require('../models');
 
 const router = express.Router();
@@ -29,6 +30,9 @@ router.get('/:id', async (req, res) => {
             through: {
                 attributes: ['read', 'id'],
                 as: 'readinglists',
+                where: req.query.read == null ? {} : {
+                    read: { [Op.eq]: req.query.read },
+                },
             },
         },
     });
