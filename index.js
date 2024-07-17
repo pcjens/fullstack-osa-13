@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const { ValidationError } = require('sequelize');
-const { blogRouter, userRouter, loginRouter } = require('./controllers');
+const { blogRouter, userRouter, loginRouter, authorRouter } = require('./controllers');
 
 dotenv.config();
 const PORT = process.env.PORT || 3001;
@@ -12,6 +12,7 @@ app.use(express.json());
 app.use('/api/blogs', blogRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/authors', authorRouter);
 app.use((error, req, res, next) => {
     if (error instanceof ValidationError) {
         return res.status(400).send({
