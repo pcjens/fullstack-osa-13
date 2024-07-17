@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { Blog, User } = require('../models');
 const { loggedInUserSetter } = require('../util/auth');
 
@@ -14,8 +15,12 @@ const blogFinder = async (req, res, next) => {
 };
 
 router.get('/', async (req, res) => {
+    const where = {};
+    if (typeof req.query.search === 'string')
+        where.title = { [Op.iLike]: `%${req.query.search}%` }
     const blogs = await Blog.findAll({
         include: { model: User },
+        where,
     });
     res.json(blogs);
 });
