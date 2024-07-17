@@ -11,6 +11,7 @@ Reading.init({
 }, {
     sequelize,
     underscored: true,
+    modelName: 'reading',
 });
 
 module.exports = Reading;
