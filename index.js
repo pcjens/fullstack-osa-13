@@ -2,9 +2,11 @@ const dotenv = require('dotenv');
 const express = require('express');
 const { ValidationError } = require('sequelize');
 const { blogRouter, userRouter, loginRouter, authorRouter } = require('./controllers');
+const db = require('./util/db');
 
 dotenv.config();
 const PORT = process.env.PORT || 3001;
+
 
 const app = express();
 
@@ -23,6 +25,7 @@ app.use((error, req, res, next) => {
     res.sendStatus(500);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}.`);
-});
+db.connectToDatabase()
+    .then(() => app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}.`);
+    }));
