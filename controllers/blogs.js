@@ -1,5 +1,6 @@
 const express = require('express');
 const { Blog } = require('../models');
+const { loggedInUserSetter } = require('../util/auth');
 
 const router = express.Router();
 
@@ -17,8 +18,9 @@ router.get('/', async (req, res) => {
     res.json(blogs);
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', loggedInUserSetter, async (req, res, next) => {
     try {
+        req.body.userId = req.loggedInUser.id;
         console.log(req.body);
         const blog = await Blog.create(req.body);
         res.json(blog);
