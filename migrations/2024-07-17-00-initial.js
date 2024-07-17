@@ -32,7 +32,7 @@ module.exports = {
         });
     },
     down: async ({ context: queryInterface }) => {
-        await queryInterface.dropTable('blogs')
-        await queryInterface.dropTable('users')
+        await queryInterface.dropTable('blogs');
+        await queryInterface.dropTable('users');
     },
 };
