@@ -12,12 +12,12 @@ const blogFinder = async (req, res, next) => {
     }
 };
 
-router.get('/api/blogs', async (req, res) => {
+router.get('/', async (req, res) => {
     const blogs = await Blog.findAll();
     res.json(blogs);
 });
 
-router.post('/api/blogs', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         console.log(req.body);
         const blog = await Blog.create(req.body);
@@ -27,7 +27,7 @@ router.post('/api/blogs', async (req, res, next) => {
     }
 });
 
-router.delete('/api/blogs/:id', blogFinder, async (req, res, next) => {
+router.delete('/:id', blogFinder, async (req, res, next) => {
     try {
         await req.blog.destroy();
         res.sendStatus(200);
@@ -36,7 +36,7 @@ router.delete('/api/blogs/:id', blogFinder, async (req, res, next) => {
     }
 });
 
-router.put('/api/blogs/:id', blogFinder, async (req, res, next) => {
+router.put('/:id', blogFinder, async (req, res, next) => {
     try {
         req.blog.likes = req.body.likes;
         await req.blog.save();
