@@ -9,6 +9,7 @@ Blog.init({
     url: { type: DataTypes.TEXT, allowNull: false },
     title: { type: DataTypes.TEXT, allowNull: false },
     likes: { type: DataTypes.INTEGER, defaultValue: 0 },
+    year: { type: DataTypes.INTEGER, allowNull: false },
 }, {
     sequelize,
     underscored: true,
