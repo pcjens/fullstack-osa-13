@@ -29,8 +29,10 @@ router.post('/', loggedInUserSetter, async (req, res, next) => {
     }
 });
 
-router.delete('/:id', blogFinder, async (req, res, next) => {
+router.delete('/:id', blogFinder, loggedInUserSetter, async (req, res, next) => {
     try {
+        if (req.blog.userId !== req.loggedInUser.id)
+            return res.status(401).send({ error: 'cannot delete other users\' blogs' });
         await req.blog.destroy();
         res.sendStatus(200);
     } catch (error) {
